@@ -6,8 +6,12 @@ Ce programme python permet de lire les fichiers franco au format .frl
 #On importe la bibliothèque sys, qui nous permettera de charger un fichier passé en paramètre.
 import sys
 
+if len(sys.argv) > 1:
+    filepath = sys.argv[1]
+else:
+    filepath = input("Veuillez entrer un nom de fichier à lire : ")
 #On charge le fichier test.frl
-fichier = open("test.frl",'rt')
+fichier = open(filepath,'rt')
 ligne = 0
 #Et on le lit
 for value in fichier.readlines():
