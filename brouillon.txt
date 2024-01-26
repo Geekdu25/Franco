@@ -1,0 +1,6 @@
+afficher()
+fonction
+renvoyer
+entier()
+flottant()
+tuple()
