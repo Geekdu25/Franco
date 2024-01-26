@@ -11,3 +11,4 @@ repeter tant que
 repeter x fois
 pour x dans y
 entree
+variable
