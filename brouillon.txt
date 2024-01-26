@@ -9,3 +9,4 @@ sinon si
 sinon
 repeter tant que
 repeter x fois
+pour x dans y
