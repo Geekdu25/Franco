@@ -4,3 +4,6 @@ renvoyer
 entier()
 flottant()
 tuple()
+si
+sinon si
+sinon
