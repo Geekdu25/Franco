@@ -1,9 +1,9 @@
-afficher()
+afficher
 fonction
 renvoyer
-entier()
-flottant()
-tuple()
+entier
+flottant
+tuple
 si
 sinon si
 sinon
