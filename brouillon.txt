@@ -7,3 +7,5 @@ tuple()
 si
 sinon si
 sinon
+repeter tant que
+repeter x fois
