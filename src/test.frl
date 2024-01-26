@@ -1,1 +1,3 @@
-afficher("Coucou !")
+afficher "Bonjour le monde !"
+a = 3
+afficher a
