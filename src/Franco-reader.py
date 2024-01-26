@@ -17,7 +17,7 @@ ligne = 0
 for value in fichier.readlines():
   ligne = ligne + 1
   #Et si une ligne du fichier commence par afficher...
-  if value.startswith('afficher("'):
+  if value.startswith('afficher "'):
     fin = 10
     try:
       while value[fin] != '"':
