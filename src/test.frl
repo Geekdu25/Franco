@@ -1,1 +1,1 @@
-afficher "Coucou !"
+afficher("Coucou !")
