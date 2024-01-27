@@ -1,3 +1,4 @@
 afficher "Bonjour le monde !"
-a = 3
-afficher a
+a = "Etre ou ne pas être, that is the question..."
+c = a
+afficher c

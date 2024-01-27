@@ -19,60 +19,77 @@ def read_frl():
     variables = {}
     affichage = False
     recordVariable = False
-    nb_mots = 0
+    mots = []
     #Et on le lit
     for value in fichier.readlines():
       ligne = ligne + 1
-      nb_mots = 0
+      mots = []
       for mot in value.split():
-        nb_mots = nb_mots + 1
-        #Et si une ligne du fichier commence par afficher...
-        if mot == 'afficher':
-            affichage = True
-        elif mot.startswith('"') and affichage:
-          affichage = False
-          fin = 10
-          try:
-            while value[fin] != '"':
-              fin = fin + 1
-              truc = value[10:fin]
-              #On affiche quelque chose
-            print(truc)
-          except IndexError:
-             print("Une erreur s'est produite.")
-             print(f"Avez-vous fermé l'instruction ligne {ligne} par des guillemets ?")
-             return False
-        elif not mot.startswith('"') and affichage:
-            if mot in variables:
-                print(variables[mot])
-            else:
-                print(f"Erreur ligne {ligne}")
-                print(f"Vous utilisez le nom {mot}. Or ce nom n'est pas défini.")
-                return False
-        elif not mot in variables and nb_mots == 1:
-          if mot[0].isdigit():
+        mots.append(mot)
+      if mots[0].startswith("#"):
+            pass  
+      if len(mots) > 1:
+        if mots[0] == 'afficher':
+          print()  
+          affichage = True
+          if mots[1].startswith('"'):
+              try:
+                truc = ""
+                num  = 10
+                while value[num] != '"':
+                    truc += value[num]
+                    num = num + 1
+                print(truc, end="")
+              except:
+                  print(f"Erreur, ligne {ligne}")
+                  print("Chaine de caractère non fermée.")
+                  return False
+          else:
+              if mots[1] in variables:
+                  print(variables[mots[1]], end="")
+              else:
+                  print(f"Erreur, ligne {ligne}")
+                  print(f"{mots[1]}, n'est pas défini.")
+                  return False
+        elif not mots[0] in variables:
+          if mots[0][0].isdigit():
             print(f"Erreur à la ligne {ligne}.")
             print("Le nom d'une variable ne doit pas commencer par un chiffre.")
             return False
           else:
-            variables[mot] = None
-            current_variable = mot
+            variables[mots[0]] = None
+            current_variable = mots[0]
             recordVariable = True
-        elif recordVariable and nb_mots == 2:
-          if mot != "=":
-            print(f"Erreur ligne {ligne}.")
-            print("Attention ! Vous essayez de définir une variable sans utiliser le signe =")
-            return False
-        elif recordVariable and nb_mots == 3:
-            recordVariable = False
-            if mot.isdigit():
-                variables[current_variable] = int(mot)
+            if mots[1] != "=":
+              print(f"Erreur ligne {ligne}.")
+              print("Attention ! Vous essayez de définir une variable sans utiliser le signe =")
+              return False
+            else:
+              recordVariable = False
+              if mots[2].isdigit():
+                  variables[current_variable] = int(mots[2])
+              elif mots[2].startswith('"') and mots[len(mots)-1].endswith('"'):
+                  tmp = mots[2:len(mots)]
+                  str_vide = ""
+                  for truc in tmp:
+                      if truc != tmp[len(tmp)-1]:
+                        str_vide = str_vide + truc + " "
+                      else:
+                          str_vide = str_vide + truc
+                  variables[current_variable] = str(str_vide[1:len(str_vide)-1])
+              elif mots[2].startswith('"') and not mots[len(mots)-1].endswith('"'):
+                  print(f"Erreur ligne {ligne}")
+                  print("Veuillez fermer votre chaîne de caractères par un guillemet.")
+                  return False
+              if mots[2] in variables:
+                  variables[current_variable] = variables[mots[2]]
     #On finit le programme en fermant le fichier
     fichier.close()
     return True
 
 print("Les développeurs du langage Franco vous saluent !")
 ok = read_frl()
+print()
 if ok:
     print("Le programme s'est terminé sans problème")
 else:
