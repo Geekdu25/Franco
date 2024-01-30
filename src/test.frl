@@ -1,4 +1,4 @@
 afficher "Bonjour le monde !"
-a = "Etre ou ne pas être, that is the question..."
+a = 3 + 525
 c = a
 afficher c
