@@ -1,4 +1,2 @@
-afficher "Bonjour le monde !"
-a = 3 + 525
-c = a
-afficher c
+mode jeu
+couleur 150 200 45
