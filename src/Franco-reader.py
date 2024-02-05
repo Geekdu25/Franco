@@ -36,18 +36,18 @@ def read_frl():
     for value in fichier.readlines():
       ligne = ligne + 1
       mots = []
-      #Puis mot par mot...  
+      #Puis mot par mot...
       for mot in value.split():
         if mot != "":
           mots.append(mot)
       if len(mots) == 0:
         pass
-      #Si jamais une ligne commence par un #, c'est un commentaire.    
+      #Si jamais une ligne commence par un #, c'est un commentaire.
       if mots[0].startswith("#"):
             pass
-      #Si l'utilisateur l'a souhaité, on active le mode jeu.    
+      #Si l'utilisateur l'a souhaité, on active le mode jeu.
       if mots[0] == "mode" and mots[1] == "jeu":
-        #On initialise pygame et quelques calques.  
+        #On initialise pygame et quelques calques.
         mode_jeu = True
         pygame.init()
         calque1 = pygame.sprite.Group()
@@ -55,30 +55,21 @@ def read_frl():
         calque3 = pygame.sprite.Group()
         calque4 = pygame.sprite.Group()
       if len(mots) > 1 and not mode_jeu:
-        #Si le programmeur souhaite afficher quelque chose...  
+        #Si le programmeur souhaite afficher quelque chose...
         if mots[0] == 'afficher':
-          #On saute une ligne...  
-          print()
+          #On saute une ligne...
           affichage = True
-          if mots[1].startswith('"'):
-              try:
-                truc = ""
-                num  = 10
-                while value[num] != '"':
-                    truc += value[num]
-                    num = num + 1
-                print(truc, end="")
-              except:
-                  print(f"Erreur, ligne {ligne}")
-                  print("Chaine de caractère non fermée.")
-                  return False
-          else:
-              if mots[1] in variables:
-                  print(variables[mots[1]], end="")
+          for mot in mots[1:len(mots)]:
+            if not mot.startswith("#"):
+              print(mot+" ", end="")
+            else:
+              if mot[1:len(mots)] in variables:
+                print(str(variables[mot[1:len(mots)]])+" ", end="")
               else:
-                  print(f"Erreur, ligne {ligne}")
-                  print(f"{mots[1]}, n'est pas défini.")
-                  return False
+                print(f"Erreur ligne {ligne}")
+                print("La variable n'existe pas.")
+                return False
+          print()
         elif not mots[0] in variables and len(mots)>2:
             if mots[0][0].isdigit():
               print(f"Erreur à la ligne {ligne}.")
@@ -94,18 +85,20 @@ def read_frl():
                 return False
               else:
                   recordVariable = False
-                  if mots[2].isdigit() and len(mots)==3:
+                  if mots[2][0].isdigit() and len(mots)== 3 and not "." in mots[2]:
                       variables[current_variable] = int(mots[2])
-                  elif mots[2].isdigit() and len(mots)==5:
-                    if mots[4].isdigit():
+                  elif mots[2][0].isdigit() and len(mots) == 3 and "." in mots[2]:
+                      variables[current_variable] = float(mots[2])
+                  elif mots[2][0].isdigit() and len(mots)==5:
+                    if mots[4][0].isdigit():
                       if mots[3] == "+":
-                        variables[current_variable] = int(mots[2]) + int(mots[4])
+                        variables[current_variable] = float(mots[2]) + float(mots[4])
                       elif mots[3] == "-":
-                        variables[current_variable] = int(mots[2]) - int(mots[4])
+                        variables[current_variable] = float(mots[2]) - float(mots[4])
                       elif mots[3] == "*":
-                        variables[current_variable] = int(mots[2]) * int(mots[4])
+                        variables[current_variable] = float(mots[2]) * float(mots[4])
                       elif mots[3] == "/":
-                        variables[current_variable] = int(mots[2]) / int(mots[4])
+                        variables[current_variable] = float(mots[2]) / float(mots[4])
                       else:
                         print(f"Erreur ligne {ligne}")
                         print("Opération mathématique non reconnue")
