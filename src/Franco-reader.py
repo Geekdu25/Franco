@@ -1,19 +1,28 @@
 """
-Crée par Etienne Pacault le 19 janvier 2024.
+Crée par Etienne Pacault et Lenny Couturier le 26 janvier 2024.
 Ce programme python permet de lire les fichiers franco au format .frl
 """
 
 #On importe la bibliothèque sys, qui nous permettera de charger un fichier passé en paramètre.
 import sys
+#Ainsi que la bibliothèque pygame, pour crée des jeux
 import pygame
 
 def read_frl():
+    """
+    Fonction qui permet de lire un fichier .frl
+    -------------------------------------------
+    return -> bool
+    """
+    #On vérifie si l'utilisateurs a passé un nom de fichier en paramètre
+    #Si oui, on le charge, sinon, on lui demande un chemin d'accès.
     if len(sys.argv) > 1:
         filepath = sys.argv[1]
     else:
         filepath = input("Veuillez entrer un nom de fichier à lire : ")
-    #On charge le fichier test.frl
+    #On charge le fichier.
     fichier = open(filepath,'rt')
+    #On initialise quelques variables (numéro de ligne, mode jeu...)
     ligne = 0
     current_variable = ""
     variables = {}
@@ -22,18 +31,23 @@ def read_frl():
     mots = []
     mode_jeu = False
     background_color = (0, 0, 0)
-    #Et on le lit
+    #Et on lit le fichier...
+    #En le décomposant d'abord ligne par ligne...
     for value in fichier.readlines():
       ligne = ligne + 1
       mots = []
+      #Puis mot par mot...  
       for mot in value.split():
         if mot != "":
           mots.append(mot)
       if len(mots) == 0:
         pass
+      #Si jamais une ligne commence par un #, c'est un commentaire.    
       if mots[0].startswith("#"):
             pass
+      #Si l'utilisateur l'a souhaité, on active le mode jeu.    
       if mots[0] == "mode" and mots[1] == "jeu":
+        #On initialise pygame et quelques calques.  
         mode_jeu = True
         pygame.init()
         calque1 = pygame.sprite.Group()
@@ -41,7 +55,9 @@ def read_frl():
         calque3 = pygame.sprite.Group()
         calque4 = pygame.sprite.Group()
       if len(mots) > 1 and not mode_jeu:
+        #Si le programmeur souhaite afficher quelque chose...  
         if mots[0] == 'afficher':
+          #On saute une ligne...  
           print()
           affichage = True
           if mots[1].startswith('"'):
