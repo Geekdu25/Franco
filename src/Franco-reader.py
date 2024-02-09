@@ -5,8 +5,6 @@ Ce programme python permet de lire les fichiers franco au format .frl
 
 #On importe la bibliothèque sys, qui nous permettera de charger un fichier passé en paramètre.
 import sys
-#Ainsi que la bibliothèque pygame, pour crée des jeux
-import pygame
 
 def read_frl():
     """
