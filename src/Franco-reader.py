@@ -22,7 +22,7 @@ def read_frl():
         filepath = input("Veuillez entrer un nom de fichier à lire : ")
     #On charge le fichier.
     fichier = open(filepath,'rt')
-    #On initialise quelques variables (numéro de ligne, mode jeu...)
+    #On initialise quelques variables (numéro de ligne...)
     ligne = 0
     current_variable = ""
     variables = {}
@@ -45,16 +45,7 @@ def read_frl():
       #Si jamais une ligne commence par un #, c'est un commentaire.
       if mots[0].startswith("#"):
             pass
-      #Si l'utilisateur l'a souhaité, on active le mode jeu.
-      if mots[0] == "mode" and mots[1] == "jeu":
-        #On initialise pygame et quelques calques.
-        mode_jeu = True
-        pygame.init()
-        calque1 = pygame.sprite.Group()
-        calque2 = pygame.sprite.Group()
-        calque3 = pygame.sprite.Group()
-        calque4 = pygame.sprite.Group()
-      if len(mots) > 1 and not mode_jeu:
+      if len(mots) > 1:
         #Si le programmeur souhaite afficher quelque chose...
         if mots[0] == 'afficher':
           #On saute une ligne...
@@ -137,25 +128,6 @@ def read_frl():
                 return False
     #On finit le programme en fermant le fichier
     fichier.close()
-    if mode_jeu:
-        screen = pygame.display.set_mode((500, 500))
-        pygame.display.set_caption("Jeu crée avec le Franco")
-        boucle_de_jeu = True
-        while boucle_de_jeu:
-            screen.fill(background_color)
-            calque1.draw(screen)
-            calque2.draw(screen)
-            calque3.draw(screen)
-            calque4.draw(screen)
-            pygame.display.flip()
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    boucle_de_jeu = False
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        pygame.quit()
-                        boucle_de_jeu = False
     return True
 
 print("Les développeurs du langage Franco vous saluent !")
