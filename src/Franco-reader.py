@@ -6,24 +6,20 @@ Ce programme python permet de lire les fichiers franco au format .frl
 #On importe la bibliothèque sys, qui nous permettera de charger un fichier passé en paramètre.
 import sys
 
-def read_frl():
+def read_frl(fichier, debut=0, fin=0):
     """
     Fonction qui permet de lire un fichier .frl
     -------------------------------------------
     return -> bool
     """
-    #On vérifie si l'utilisateurs a passé un nom de fichier en paramètre
-    #Si oui, on le charge, sinon, on lui demande un chemin d'accès.
-    if len(sys.argv) > 1:
-        filepath = sys.argv[1]
-    else:
-        filepath = input("Veuillez entrer un nom de fichier à lire : ")
-    #On charge le fichier.
-    fichier = open(filepath,'rt')
     #On initialise quelques variables (numéro de ligne...)
     ligne = 0
     current_variable = ""
     variables = {}
+    checksum = 0
+    if fin == 0:
+        fin = len(fichier.readlines())
+    fonctions = {}
     affichage = False
     recordVariable = False
     mots = []
@@ -39,32 +35,44 @@ def read_frl():
         if mot != "":
           mots.append(mot)
       if len(mots) == 0:
-        pass
+        continue
       #Si jamais une ligne commence par un #, c'est un commentaire.
       if mots[0].startswith("#"):
             pass
-      if len(mots) > 1:
-        #Si le programmeur souhaite afficher quelque chose...
-        if mots[0] == 'afficher':
-          #On saute une ligne...
-          affichage = True
-          for mot in mots[1:len(mots)]:
-            if not mot.startswith("#"):
-              print(mot+" ", end="")
-            else:
-              if mot[1:len(mots)] in variables:
-                print(str(variables[mot[1:len(mots)]])+" ", end="")
+      elif mots[0] == "}" and checksum == 1:
+        for fonction in fonctions:
+            if fonction[1] == None:
+                fonction[1] = ligne
+                checksum = 0
+      if checksum == 0:
+          #Si le programmeur souhaite afficher quelque chose...
+          if mots[0] == 'afficher':
+            #On saute une ligne...
+            affichage = True
+            print()
+            for mot in mots[1:len(mots)]:
+              if not mot.startswith("#"):
+                print(mot+" ", end="")
               else:
-                print(f"Erreur ligne {ligne}")
-                print("La variable n'existe pas.")
-                return False
-          print()
-        elif not mots[0] in variables and len(mots)>2:
-            if mots[0][0].isdigit():
+                if mot[1:len(mots)] in variables:
+                  print(str(variables[mot[1:len(mots)]])+" ", end="")
+                else:
+                  print(f"Erreur ligne {ligne}")
+                  print("La variable n'existe pas.")
+                  return False
+          if mot[0] in fonctions:
+            read_frl(fonctions[mot[0]][0], fonctions[mot[0]][1])
+
+          elif mots[0] not in variables:
+            if mots[0] == "definir" and mots[2]=="{":
+              fonctions[mots[1]] = [ligne, None]
+              checksum = checksum + 1
+              continue
+            elif mots[0][0].isdigit():
               print(f"Erreur à la ligne {ligne}.")
               print("Le nom d'une variable ne doit pas commencer par un chiffre.")
               return False
-            else:
+            if len(mots)>2:
               variables[mots[0]] = None
               current_variable = mots[0]
               recordVariable = True
@@ -112,24 +120,24 @@ def read_frl():
                   if mots[2] in variables:
                       variables[current_variable] = variables[mots[2]]
 
-        else:
+      else:
           print(f"Erreur ligne {ligne}")
           print("Une erreur de syntaxe s'est produite.")
           return False
-      elif len(mots) > 3 and mode_jeu:
-        if mots[0] == "couleur":
-            try:
-                background_color = (int(mots[1]), int(mots[2]), int(mots[3]))
-            except:
-                print(f"Erreur ligne {ligne}")
-                print("Veuillez définir une couleur à l'aide de trois nombres entiers : Rouge Vert Bleu")
-                return False
     #On finit le programme en fermant le fichier
-    fichier.close()
     return True
 
 print("Les développeurs du langage Franco vous saluent !")
-ok = read_frl()
+#On vérifie si l'utilisateurs a passé un nom de fichier en paramètre
+#Si oui, on le charge, sinon, on lui demande un chemin d'accès.
+if len(sys.argv) > 1:
+    filepath = sys.argv[1]
+else:
+    filepath = input("Veuillez entrer un nom de fichier à lire : ")
+#On charge le fichier.
+fichier = open(filepath,'rt')
+ok = read_frl(fichier)
+fichier.close()
 print()
 if ok:
     print("Le programme s'est terminé sans problème")

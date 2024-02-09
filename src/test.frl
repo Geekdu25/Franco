@@ -1,3 +1,8 @@
 afficher Bonjour !
 a = 33
 afficher J'ai #a ans.
+
+definir demo {
+afficher Bonjour le monde !
+}
+demo
