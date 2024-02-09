@@ -1,2 +1,3 @@
-mode jeu
-couleur 68 154 232
+afficher Bonjour !
+a = 33
+afficher J'ai #a ans.
