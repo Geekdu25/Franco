@@ -37,6 +37,8 @@ def read_frl(fichier):
         continue
       else:
         ok = execute_ligne(mots)
+        if ok == False:
+            return ok
     if ok == None:
       ok = True
     return ok
@@ -48,7 +50,7 @@ def execute_ligne(laligne):
     ligne -> list
     return -> bool
     """
-    global ligne, current_variable, variables, commence, checksum, sauvegarde, fonctions, recordVariable
+    global ligne, current_variable, variables, commence, checksum, sauvegarde, fonctions, recordVariable, fichier
     mots = laligne
     #Si jamais une ligne commence par un #, c'est un commentaire.
     if mots[0] == "debut":
@@ -58,6 +60,10 @@ def execute_ligne(laligne):
           return
     if commence:
         #Si le programmeur souhaite afficher quelque chose...
+        if mots[0] == "definir":
+            print(f"! Attention ! ligne {ligne}")
+            print("On ne peut pas définir de fonctions une fois le mot clé debut analysé")
+            return False
         if mots[0] == 'afficher':
           #On saute une ligne...
           print()
@@ -72,9 +78,14 @@ def execute_ligne(laligne):
                 print("La variable n'existe pas.")
                 return False
         elif mots[0] not in variables:
-          if mots[0] == "definir" and mots[2]=="{":
-            fonctions[mots[1]] = [ligne, None]
-            checksum = checksum + 1
+          if mots[0] in fonctions:
+            debut = fonctions[mots[0]][0]
+            fin = fonctions[mots[0]][1]
+            print(fichier.readlines()[0])
+            for truc in fichier.readlines():
+                print(truc)
+                execute_ligne(truc)
+                print("Ca ff")
             return
           if mots[0][0].isdigit():
             print(f"Erreur à la ligne {ligne}.")
@@ -151,7 +162,10 @@ if len(sys.argv) > 1:
 else:
     filepath = input("Veuillez entrer un nom de fichier à lire : ")
 #On charge le fichier.
-fichier = open(filepath,'rt')
+try:
+  fichier = open(filepath,'rt')
+except:
+    print("Erreur lors du chargement du fichier.")
 ok = read_frl(fichier)
 fichier.close()
 print()

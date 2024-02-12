@@ -1,7 +1,8 @@
-definir caca {
+definir test {
 afficher Ca marche !
 }
 debut
 afficher Bonjour !
 a = 33
 afficher J'ai #a ans.
+test
