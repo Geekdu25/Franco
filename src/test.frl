@@ -2,7 +2,7 @@ definir test {
 afficher Ca marche !
 }
 debut
-afficher Bonjour !
-a = 33
-afficher J'ai #a ans.
+afficher Salut tout le monde !
+a = (35 * 25)
+afficher J'ai #a ans
 test
