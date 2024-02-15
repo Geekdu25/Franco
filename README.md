@@ -3,6 +3,7 @@ Logiciel de lecture des fichiers .frl
 # Qu'est-ce que le Franco ?
 Le Franco est un langage de programmation révolutionnaire entièrement francophone.
 Il a été conçu pour les personnes souhaitant se lancer dans la programmation informatique, mais qui ont peur d'un langage anglophone traditionnel.
+<img src="Drapeau_francais.png" alt="Drapeau de la France" title="Drapeau français"/>
 # Comment exécuter un fichier .frl ?
 # Sous Linux (Debian)
 1. Clonez le repository sur votre ordinateur :
