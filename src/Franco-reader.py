@@ -27,7 +27,9 @@ def read_frl(fichier):
   global ligne, current_variable, variables, commence, checksum, sauvegarde, fonctions, recordVariable
   for truc in fichier.read().splitlines():
     ligne = ligne + 1
-    execute_ligne(truc)
+    result = execute_ligne(truc)
+    if result==False:
+        return False
   return True
 
 def execute_ligne(laligne):
@@ -69,9 +71,8 @@ def execute_ligne(laligne):
                 print("Erreur lors de l'affectation de la variable.")
         elif mots[0] in fonctions:
             file = open(filepath, "rt")
-            file.seek(fonctions[mots[0]][0])
             lignen = fonctions[mots[0]][0]
-            for truc in file.read().splitlines():
+            for truc in file.read().splitlines()[fonctions[mots[0]][0]:fonctions[mots[0]][1]]:
                 lignen = lignen + 1
                 execute_ligne(truc)
                 if lignen == fonctions[mots[0]][1]:
