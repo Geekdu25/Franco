@@ -62,8 +62,25 @@ def execute_ligne(laligne):
                   return False
             print()
         elif len(mots) > 2 and mots[1] == "=":
-            if mots[2].isdigit():
+            if mots[2].isdigit() and not "." in mots[2]:
                 variables[mots[0]] = int(mots[2])
+            elif mots[2].isdigit() and "." in mots[2]:
+                variables[mots[0]] = float(mots[2])
+            elif mots[2].startswith('"'):
+                str_vide = ""
+                for mot in mots[2:len(mots)]:
+                    str_vide = str_vide + mot + " "
+                variables[mots[0]] = str_vide[1:len(str_vide)-2]
+            elif mots[2] == "entree":
+                str_vide = ""
+                for mot in mots[3:len(mots)]:
+                    str_vide = str_vide + mot + " "
+                result = input(str_vide)
+                if result.isdigit() and not "." in result:
+                    result = int(result)
+                elif result.isdigit() and "." in result:
+                    result = float(result)
+                variables[mots[0]] = result
             elif mots[2].startswith("("):
                 variables[mots[0]] = analyse_expression(mots[2:len(mots)])
             else:
@@ -97,19 +114,35 @@ def execute_ligne(laligne):
 
 def analyse_expression(expression):
     global ligne, current_variable, variables, commence, checksum, sauvegarde, fonctions, recordVariable
-    test = expression
+    test = []
+    i = 0
+    for truc in expression:
+        if i == 0:
+            truc = truc[1:len(expression)]
+        if i == len(expression) - 1:
+            truc = truc[0:len(truc)-1]
+        if truc.isdigit() and "." in truc:
+            truc = float(truc)
+        if truc.isdigit() and not "." in truc:
+            truc = int(truc)
+        test.append(truc)
+        i = i + 1
     if len(test) > 2:
         if test[1] == "+":
-            return int(test[0][1:len(test[0])]) + int(test[2][0:len(test[2])-1])
+            return test[0] + test[2]
         elif test[1] == "-":
-            return int(test[0][1:len(test[0])]) - int(test[2][0:len(test[2])-1])
+            return test[0] - test[2]
         elif test[1] == "*":
-            return int(test[0][1:len(test[0])]) * int(test[2][0:len(test[2])-1])
+            return test[0] * test[2]
         elif test[1] == "/":
-            return int(test[0][1:len(test[0])]) / int(test[2][0:len(test[2])-1])
+            return test[0] / test[2]
+        elif test[1] == "%":
+          return test[0] % test[2]
+        elif test[1] == "//":
+          return test[0] // test[2]
         else:
             print(f"Erreur ligne {ligne}")
-            print("Opération arithmétique non reconnue.")
+            print("Opération non reconnue.")
     else:
         print(f"Erreur ligne {ligne}")
         print("Expression incorrecte.")

@@ -1,11 +1,7 @@
-definir test {
-afficher Ca marche !
-afficher Un autre truc !
-b = (26 * 2)
-afficher #b
+definir demander_age {
+age = entree Quel age as-tu ?
+afficher Tu as #age ans.
 }
 debut
 afficher Salut tout le monde !
-a = (35 * 25)
-afficher J'ai #a ans
-test
+demander_age
