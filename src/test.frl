@@ -1,6 +1,15 @@
+
+
+
+
+
 definir demander_age {
 age = entree Quel age as-tu ?
 afficher Tu as #age ans.
+foisdeux = 2
+afficher J'en ai le double !
+age_machine = (#age * #foisdeux)
+afficher J'ai #age_machine ans !
 }
 debut
 afficher Salut tout le monde !

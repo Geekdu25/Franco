@@ -54,8 +54,8 @@ def execute_ligne(laligne):
               if not mot.startswith("#"):
                 print(mot+" ", end="")
               else:
-                if mot[1:len(mots)] in variables:
-                  print(str(variables[mot[1:len(mots)]])+" ", end="")
+                if mot[1:len(mot)] in variables:
+                  print(str(variables[mot[1:len(mot)]])+" ", end="")
                 else:
                   print(f"Erreur ligne {ligne}")
                   print("La variable n'existe pas.")
@@ -86,6 +86,7 @@ def execute_ligne(laligne):
             else:
                 print(f"Erreur ligne {ligne}")
                 print("Erreur lors de l'affectation de la variable.")
+                return False
         elif mots[0] in fonctions:
             file = open(filepath, "rt")
             lignen = fonctions[mots[0]][0]
@@ -118,13 +119,15 @@ def analyse_expression(expression):
     i = 0
     for truc in expression:
         if i == 0:
-            truc = truc[1:len(expression)]
+            truc = truc[1:len(truc)]
         if i == len(expression) - 1:
             truc = truc[0:len(truc)-1]
         if truc.isdigit() and "." in truc:
             truc = float(truc)
-        if truc.isdigit() and not "." in truc:
+        elif truc.isdigit() and not "." in truc:
             truc = int(truc)
+        elif truc.startswith("#"):
+            truc = variables[truc[1:len(truc)]]
         test.append(truc)
         i = i + 1
     if len(test) > 2:
