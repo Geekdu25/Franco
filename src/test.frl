@@ -1,5 +1,8 @@
 definir test {
 afficher Ca marche !
+afficher Un autre truc !
+b = (26 * 2)
+afficher #b
 }
 debut
 afficher Salut tout le monde !

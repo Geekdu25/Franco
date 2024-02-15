@@ -68,9 +68,13 @@ def execute_ligne(laligne):
                 print("Erreur lors de l'affectation de la variable.")
         elif mots[0] in fonctions:
             file = open(filepath, "rt")
-            for loop in range(fonctions[mots[0]][0], fonctions[mots[0]][1]):
-                print(fichier.read().splitlines())
-                execute_ligne(fichier.read().splitlines()[loop])
+            file.seek(fonctions[mots[0]][0])
+            lignen = fonctions[mots[0]][0]
+            for truc in file.read().splitlines():
+                lignen = lignen + 1
+                execute_ligne(truc)
+                if lignen == fonctions[mots[0]][1]:
+                    break
     else:
         if mots[0] == "debut":
             commence = True
