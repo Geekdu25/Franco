@@ -1,16 +1,12 @@
-
-
-
-
-
-definir demander_age {
-age = entree Quel age as-tu ?
-afficher Tu as #age ans.
-foisdeux = 2
-afficher J'en ai le double !
-age_machine = (#age * #foisdeux)
-afficher J'ai #age_machine ans !
-}
 debut
-afficher Salut tout le monde !
-demander_age
+a = entree Donnez votre age !
+si (#a < 25) {
+afficher Tu es bien jeune !
+}
+si (#a >= 25 et #a < 100) {
+afficher Tu as un bel age !
+}
+si (#a > 100) {
+afficher Tu es vieux connard
+afficher Il n'existe pas d'ordinateurs vieux de #a ans.
+}
