@@ -7,6 +7,6 @@ si (#a >= 25 et #a < 100) {
 afficher Tu as un bel age !
 }
 si (#a > 100) {
-afficher Tu es vieux connard
+afficher Tu es vieux !
 afficher Il n'existe pas d'ordinateurs vieux de #a ans.
 }
