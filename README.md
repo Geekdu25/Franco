@@ -5,7 +5,6 @@ Le Franco est un langage de programmation révolutionnaire entièrement francoph
 Il a été conçu pour les personnes souhaitant se lancer dans la programmation informatique, mais qui ont peur d'un langage anglophone traditionnel.
 <br />
 <hr />
-<CENTER><img src="Drapeau_francais.png" alt="Drapeau de la France" title="Drapeau français"/></CENTER>
 <br />
 
 # Comment exécuter un fichier .frl ?
