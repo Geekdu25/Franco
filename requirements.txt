@@ -1,0 +1,5 @@
+Veuillez vous assurer que votre ordinateur linux possède une version de python 3.
+1) Ouvrez l'invite de commande.
+2) Entrez la commande : sudo apt update
+3) Entrez la commande : sudo apt upgrade
+4) Entrez la commande : sudo apt install python3
