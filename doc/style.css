@@ -1,3 +1,14 @@
 body {
-background-color : #0022aa;
+background-color : #0022AA;
+font-family: Wingdings 3;
+color: #EEEEEE;
 }
+
+a:hover {
+  color: #ABCDEF;
+
+}
+a:visited {
+    color: #EEEEEE;
+  
+  }
