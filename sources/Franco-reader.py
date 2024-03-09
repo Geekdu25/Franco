@@ -174,27 +174,19 @@ def execute_ligne(laligne):
               save_ligne = ligne
               current_checksum = checksum
               file = open(filepath, "rt", encoding="UTF-8")
-              if mots[len(mots)-1] == "{":
-                checksum = checksum + 1
-                lignen = save_ligne
-              for truc in file.read().splitlines()[save_ligne+1:]:
-                    lignen = lignen + 1
-                    if "{" in truc:
-                        checksum = checksum + 1
-                    elif "}" in truc:
-                        checksum = checksum -1
-                    if current_checksum == checksum:
-                        fin = ligne
-                        break
               while analyse_expression(mots[1:len(mots)-1]):
                 print(analyse_expression(mots[1:len(mots)-1]))
                 #On analyse chaque ligne du debut de la fonction jusqu'à sa fin.
                 lignen = save_ligne
-                print(save_ligne, fin)
-                for truc in file.read().splitlines()[save_ligne:fin]:
+                for truc in file.read().splitlines()[save_ligne:]:
                     lignen = lignen + 1
                     execute_ligne(truc)
-              mode_si = True
+                    if "{" in truc:
+                      checksum = checksum + 1
+                    if "}" in truc:
+                      checksum = checksum - 1
+                    if checksum == current_checksum:
+                      break
         #Si le programme n'a pas encore commencé.
         else:
             #On commenc le programme avec le mot-clé debut
