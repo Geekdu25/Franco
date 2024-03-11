@@ -154,7 +154,7 @@ def execute_ligne(laligne):
                 #Sinon, si le mot commence par une parenthèse, on a affaire à une expression.
                 elif mots[2].startswith("("):
                     #Il faut donc l'analyser.
-                    variables[mots[0]] = analyse_expression(mots[2:len(mots)])
+                    variables[mots[0]] = int(analyse_expression(mots[2:len(mots)]))
                 #Sinon, on retourne une erreur.
                 else:
                     print(f"Erreur ligne {ligne}")
@@ -172,10 +172,11 @@ def execute_ligne(laligne):
                         break
             elif mots[0] == "tant_que" and len(mots) > 2:
               save_ligne = ligne
+              checksum = checksum + 1
               current_checksum = checksum
               file = open(filepath, "rt", encoding="UTF-8")
               while analyse_expression(mots[1:len(mots)-1]):
-                print(analyse_expression(mots[1:len(mots)-1]))
+                print(analyse_expression(mots[1:len(mots)-1]), mots[1:len(mots)-1], variables["a"])
                 #On analyse chaque ligne du debut de la fonction jusqu'à sa fin.
                 lignen = save_ligne
                 for truc in file.read().splitlines()[save_ligne:]:
@@ -219,7 +220,6 @@ def analyse_expression(expression):
     global ligne, current_variable, variables, commence, checksum, sauvegarde, fonctions, recordVariable
     test = []
     i = 0
-    print(expression, variables["a"])
     #On traite de manière différente chaque élément de l'expression (un nombre par exemple...)
     for truc in expression:
         if i == 0:
@@ -310,6 +310,7 @@ def analyse_expression(expression):
             print(f"Erreur ligne {ligne}")
             print("Opération non reconnue.")
       if len(test) == 3:
+          print(partie1)
           return partie1
       elif len(test) == 7:
           if test[3] == "et":
@@ -334,11 +335,12 @@ if not filepath.endswith(".frl"):
 try:
   fichier = open(filepath,'rt', encoding="UTF-8")
 except:
-    print("Erreur lors du chargement du fichier.")
-ok = read_frl(fichier)
-fichier.close()
-print()
-if ok:
-    print("Le programme s'est terminé sans problème")
+    print(" ! Erreur lors du chargement du fichier ! ")
 else:
-    print("Une erreur nous a forcé à interrompre le programme.")
+  ok = read_frl(fichier)
+  fichier.close()
+  print()
+  if ok:
+      print("Le programme s'est terminé sans problème")
+  else:
+      print("Une erreur nous a forcé à interrompre le programme.")
