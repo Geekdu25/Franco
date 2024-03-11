@@ -172,25 +172,28 @@ def execute_ligne(laligne):
                         break
             elif mots[0] == "tant_que" and len(mots) > 2:
               save_ligne = ligne
-              checksum = checksum + 1
-              current_checksum = checksum
+              current_checksum = checksum - 1
               file = open(filepath, "rt", encoding="UTF-8")
               while analyse_expression(mots[1:len(mots)-1]):
                 print(analyse_expression(mots[1:len(mots)-1]), mots[1:len(mots)-1], variables["a"])
                 #On analyse chaque ligne du debut de la fonction jusqu'à sa fin.
                 lignen = save_ligne
+                print(checksum, current_checksum)
                 for truc in file.read().splitlines()[save_ligne:]:
                     lignen = lignen + 1
                     execute_ligne(truc)
+                    print(checksum, current_checksum, truc)
                     if "{" in truc:
                       checksum = checksum + 1
                     if "}" in truc:
                       checksum = checksum - 1
+                    print(checksum == current_checksum, checksum, current_checksum)
                     if checksum == current_checksum:
+                      print("On y est !")
                       break
         #Si le programme n'a pas encore commencé.
         else:
-            #On commenc le programme avec le mot-clé debut
+            #On commence le programme avec le mot-clé debut
             if mots[0] == "debut":
                 commence = True
             #Ou on définit une fonction avec le mot clé definir
