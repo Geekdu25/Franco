@@ -20,6 +20,7 @@ fonctions = {}
 fin = 0
 recordVariable = False
 mode_si = False
+mode_tant_que = False
 
 def read_frl(fichier):
   """
@@ -29,14 +30,14 @@ def read_frl(fichier):
   return -> bool
   """
   #On rend certaines variables globales utilisables dans la fonction.
-  global ligne, current_variable, variables, commence, checksum, sauvegarde, fonctions, recordVariable, mode_si, current_checksum
+  global ligne, current_variable, variables, commence, checksum, sauvegarde, fonctions, recordVariable, mode_si, current_checksum, mode_tant_que
   #On décompose le fichier en plusieurs lignes (qu'on appelle truc).
   for truc in fichier.read().splitlines():
     #On incrémente le numéro de ligne
     ligne = ligne + 1
     #Et on exécute cette ligne via la fonction execute_ligne
     #On stocke dans la variable result, un booléen. True si l'exécution de la ligne n'a pas déclenché d'erreur, False sinon.
-    if not mode_si:
+    if not mode_si and not mode_tant_que:
       result = execute_ligne(truc)
       #Et si jamais la fonction nous renvoie une erreur, on arrête le programme
       if result==False:
@@ -48,6 +49,8 @@ def read_frl(fichier):
         checksum = checksum - 1
       if checksum == current_checksum:
         mode_si = False
+        mode_tant_que.append(ligne)
+        execute_ligne("t")
   #Et si tout s'est bien passé on renvoie True
   return True
 
@@ -59,7 +62,7 @@ def execute_ligne(laligne):
     return -> bool
     """
     #On rend certaines variables globales utilisables dans la fonction.
-    global fichier, ligne, current_variable, variables, commence, checksum, sauvegarde, fonctions, recordVariable, filepath, mode_si, current_checksum, save_ligne, fin
+    global fichier, ligne, current_variable, variables, commence, checksum, sauvegarde, fonctions, recordVariable, filepath, mode_si, current_checksum, save_ligne, fin, mode_tant_que
     #On décompose la ligne en mots (qui sont séparés par des espaces).
     test = laligne.split(" ")
     mots = []
@@ -171,26 +174,29 @@ def execute_ligne(laligne):
                     if lignen == fonctions[mots[0]][1]:
                         break
             elif mots[0] == "tant_que" and len(mots) > 2:
-              save_ligne = ligne
-              current_checksum = checksum - 1
+              current_checksum = checksum
+              checksum = checksum + 1
               file = open(filepath, "rt", encoding="UTF-8")
-              while analyse_expression(mots[1:len(mots)-1]):
-                print(analyse_expression(mots[1:len(mots)-1]), mots[1:len(mots)-1], variables["a"])
+              mode_tant_que = [ligne]
+            elif mots[0] == "t":
+              file = open(filepath, "rt", encoding="UTF-8")
+              s = file.read().splitlines()[mode_tant_que[0]-1].split(" ")
+              print(s)
+              while analyse_expression(s[1:len(s)-1]):
                 #On analyse chaque ligne du debut de la fonction jusqu'à sa fin.
                 lignen = save_ligne
-                print(checksum, current_checksum)
-                for truc in file.read().splitlines()[save_ligne:]:
+                for truc in file.read().splitlines()[mode_tant_que[0]:mode_tant_que[1]]:
                     lignen = lignen + 1
                     execute_ligne(truc)
-                    print(checksum, current_checksum, truc)
+                    print("hello", checksum, current_checksum, truc)
                     if "{" in truc:
                       checksum = checksum + 1
                     if "}" in truc:
                       checksum = checksum - 1
-                    print(checksum == current_checksum, checksum, current_checksum)
                     if checksum == current_checksum:
                       print("On y est !")
                       break
+              mode_tant_que = False
         #Si le programme n'a pas encore commencé.
         else:
             #On commence le programme avec le mot-clé debut
@@ -338,7 +344,7 @@ if not filepath.endswith(".frl"):
 try:
   fichier = open(filepath,'rt', encoding="UTF-8")
 except:
-    print(" ! Erreur lors du chargement du fichier ! ")
+    print("! Erreur lors du chargement du fichier !")
 else:
   ok = read_frl(fichier)
   fichier.close()
