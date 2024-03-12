@@ -6,7 +6,12 @@ color: #EEEEEE;
 
 a:hover {
   color: #ABCDEF;
+p.attention {
+color: red;
+font-size: 125%;  
+}
 
+  
 }
 a:visited {
     color: #EEEEEE;
