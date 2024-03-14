@@ -12,15 +12,15 @@ Il a été conçu pour les personnes souhaitant se lancer dans la programmation 
 1. Clonez le repository sur votre ordinateur :
 <code>git clone https://github.com/Geekdu25/Franco</code>
 2. Entrez dans le répertoire src du repository :
-<code>cd Franco/src</code>
+<code>cd Franco/sources</code>
 3. Entrez la commande suivante :
 <code>python3 franco-reader.py <NOM_DE_VOTRE_FICHIER>.frl</code>
 # Comment installer le lecteur Franco ?
 # Sous Linux (Debian)
 1. Clonez le repository sur votre ordinateur
 <code>git clone https://github.com/Geekdu25/Franco</code>
-2. Entrez dans le répertoire src du repository
-<code>cd Franco/src</code>
+2. Entrez dans le répertoire sources du repository
+<code>cd Franco/sources</code>
 3. Rendez le Lecteur Franco exécutable
 <code>sudo chmod +x franco-reader.py</code>
 4. Copiez le script dans le dossier /usr/local/bin
