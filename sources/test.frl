@@ -1,7 +1,7 @@
 debut
 a = 0
 tant_que (#a <= 10) {
-a = (#a + 1)
-afficher A est égal à #a
+	a = (#a + 1)
+	afficher A est égal à #a
 }
 afficher C'est fini, a est égal à #a
