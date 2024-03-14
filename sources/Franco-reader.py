@@ -12,15 +12,13 @@ ligne = 0
 current_variable = ""
 variables = {}
 commence = False
-save_ligne = 0
+numt = 0
 checksum = 0
 current_checksum = 0
 sauvegarde = None
 fonctions = {}
-fin = 0
 recordVariable = False
 mode_si = False
-mode_tant_que = False
 
 def read_frl(fichier):
   """
@@ -30,14 +28,14 @@ def read_frl(fichier):
   return -> bool
   """
   #On rend certaines variables globales utilisables dans la fonction.
-  global ligne, current_variable, variables, commence, checksum, sauvegarde, fonctions, recordVariable, mode_si, current_checksum, mode_tant_que
+  global ligne, current_variable, variables, commence, checksum, sauvegarde, fonctions, recordVariable, mode_si, current_checksum, numt
   #On décompose le fichier en plusieurs lignes (qu'on appelle truc).
   for truc in fichier.read().splitlines():
     #On incrémente le numéro de ligne
     ligne = ligne + 1
     #Et on exécute cette ligne via la fonction execute_ligne
     #On stocke dans la variable result, un booléen. True si l'exécution de la ligne n'a pas déclenché d'erreur, False sinon.
-    if not mode_si and not mode_tant_que:
+    if not mode_si and not f"tmp{numt-1}" in fonctions.keys():
       result = execute_ligne(truc)
       #Et si jamais la fonction nous renvoie une erreur, on arrête le programme
       if result==False:
@@ -47,10 +45,20 @@ def read_frl(fichier):
         checksum = checksum + 1
       if "}" in truc:
         checksum = checksum - 1
-      if checksum == current_checksum:
+      if checksum == current_checksum and mode_si:
         mode_si = False
-        mode_tant_que.append(ligne)
-        execute_ligne("t")
+      elif checksum == current_checksum and f"tmp{numt-1}" in fonctions.keys():
+        fonctions[f"tmp{numt-1}"][2] = ligne
+        while analyse_expression(fonctions[f"tmp{numt-1}"][0]):
+            file = open(filepath, "rt", encoding="UTF-8")
+            lignen = fonctions[f"tmp{numt-1}"][1]
+            for truc in file.read().splitlines()[fonctions[f"tmp{numt-1}"][1]:fonctions[f"tmp{numt-1}"][2]]:
+                lignen = lignen + 1
+                execute_ligne(truc)
+                if lignen == fonctions[f"tmp{numt-1}"][2]:
+                    break
+        del fonctions[f"tmp{numt-1}"]
+        numt = numt - 1
   #Et si tout s'est bien passé on renvoie True
   return True
 
@@ -62,7 +70,7 @@ def execute_ligne(laligne):
     return -> bool
     """
     #On rend certaines variables globales utilisables dans la fonction.
-    global fichier, ligne, current_variable, variables, commence, checksum, sauvegarde, fonctions, recordVariable, filepath, mode_si, current_checksum, save_ligne, fin, mode_tant_que
+    global fichier, ligne, current_variable, variables, commence, checksum, sauvegarde, fonctions, recordVariable, filepath, mode_si, current_checksum, numt
     #On décompose la ligne en mots (qui sont séparés par des espaces).
     test = laligne.split(" ")
     mots = []
@@ -173,30 +181,10 @@ def execute_ligne(laligne):
                     execute_ligne(truc)
                     if lignen == fonctions[mots[0]][1]:
                         break
-            elif mots[0] == "tant_que" and len(mots) > 2:
-              current_checksum = checksum
+            elif mots[0] == "tant_que" and len(mots) > 2 and mots[len(mots)-1] == "{":
+              fonctions[f"tmp{numt}"] = [mots[1:len(mots)-1], ligne, None]
+              numt = numt + 1
               checksum = checksum + 1
-              file = open(filepath, "rt", encoding="UTF-8")
-              mode_tant_que = [ligne]
-            elif mots[0] == "t":
-              file = open(filepath, "rt", encoding="UTF-8")
-              s = file.read().splitlines()[mode_tant_que[0]-1].split(" ")
-              print(s)
-              while analyse_expression(s[1:len(s)-1]):
-                #On analyse chaque ligne du debut de la fonction jusqu'à sa fin.
-                lignen = save_ligne
-                for truc in file.read().splitlines()[mode_tant_que[0]:mode_tant_que[1]]:
-                    lignen = lignen + 1
-                    execute_ligne(truc)
-                    print("hello", checksum, current_checksum, truc)
-                    if "{" in truc:
-                      checksum = checksum + 1
-                    if "}" in truc:
-                      checksum = checksum - 1
-                    if checksum == current_checksum:
-                      print("On y est !")
-                      break
-              mode_tant_que = False
         #Si le programme n'a pas encore commencé.
         else:
             #On commence le programme avec le mot-clé debut
@@ -319,7 +307,6 @@ def analyse_expression(expression):
             print(f"Erreur ligne {ligne}")
             print("Opération non reconnue.")
       if len(test) == 3:
-          print(partie1)
           return partie1
       elif len(test) == 7:
           if test[3] == "et":
