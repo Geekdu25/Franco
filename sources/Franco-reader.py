@@ -269,7 +269,12 @@ def analyse_expression(expression):
         elif test[1] == "*":
             partie1 =  test[0] * test[2]
         elif test[1] == "/":
-            partie1 =  test[0] / test[2]
+            if test[2] != 0:
+              partie1 =  test[0] / test[2]
+            else:
+                print("Erreur !")
+                print("Il est interdit de diviser par zéro.")
+                partie1 = 0
         elif test[1] == "%":
           partie1 =  test[0] % test[2]
         elif test[1] == "//":
@@ -299,7 +304,12 @@ def analyse_expression(expression):
         elif test[5] == "*":
             partie2 =  test[4] * test[6]
         elif test[5] == "/":
-            partie2 =  test[4] / test[6]
+            if test[6] != 0:
+              partie2 = test[4] / test[6]
+            else:
+                print("Erreur !")
+                print("Il est interdit de diviser par zéro.")
+                partie2 = 0
         elif test[5] == "%":
           partie2 =  test[4] % test[6]
         elif test[5] == "//":
