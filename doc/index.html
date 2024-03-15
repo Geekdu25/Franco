@@ -11,14 +11,20 @@
 <a href="#func">fonctions</a><br />
 <a href="#si">instructions conditionnelles</a><br />
 <a href="#oper">operateurs</a><br />
-<a>fonction d'affichage</a><br />
+<a href="#afficher">fonction d'affichage</a><br />
 <h1><a name="var">Les variables</a></h1><br />
 <p>Les variables doivent etre initialisées en ecrivant le nom de la variable, puis en ecrivant = suivi de la valeur de la variable.</p>
-<p>Exemple : <b>var = 6</b></p>
+<p>Exemple : <code>var = 6</code></p>
 <p>Ici, on initialise la variable var en lui affectant la valeur 6.</p>
-<p class="attention">Attention ! On affecte une valeur à une variable seulement en déclarant son nom. En revanche, lorsque nous utiliserons une variable, on la fera précéder du préfixe #.</p>  
+<p>Sachant que les chaines de caractères ne sont pas délimitées par des guillemets, les variables sont précédés d'un # lorsque l'on aura besoin de la variable, excepté lors de son affectation. exemple :</p>
+<p><code>afficher le contenu de la variabe est #var</code>: ici, la console affichera <code>"le contenu de la variable est 6"</code> (parceque l'on a affecté précédemment à la variable var la valeur 6).</p>
 <h1><a name="func">Les fonctions</a></h1><br />
-<p>Pour définir une fonction, utilisez le mot-clé definir suivit du nom de la fonction puis d'une accolade avant d'avoir écrit le mot clé debut.</p>
+<p>Pour définir une fonction, utilisez le mot-clé definir suivit du nom de la fonction puis d'une accolade avant d'avoir écrit le mot clé debut. exemple :</p>
+<p><code>definir bonjour {<br />
+a = 2
+b = #a + 3
+}
+</code></p>
 <h1><a name="si">Les instructions conditionnelles</a></h1><br />
 <h1><a name="oper">Les opérateurs</a></h1><br />
 </body>
