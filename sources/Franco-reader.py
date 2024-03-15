@@ -20,19 +20,6 @@ fonctions = {}
 recordVariable = False
 mode_si = False
 
-def enleve_tabulations(ligne):
-    """
-    Cette fonction permet d'enlever les tabulation (\t) pouvant éventuellement se trouver dans une ligne de code.
-    -------------------------------------------------------------------------------------------------------------
-    ligne -> str
-    return -> str
-    """
-    nouvelle_ligne = ""
-    for caractere in ligne:
-        if caractere != "\t":
-            nouvelle_ligne = nouvelle_ligne + caractere
-    return nouvelle_ligne
-
 def read_frl(fichier):
   """
   Fonction qui décompose un fichier .frl ligne par ligne
@@ -46,8 +33,6 @@ def read_frl(fichier):
   for truc in fichier.read().splitlines():
     #On incrémente le numéro de ligne
     ligne = ligne + 1
-    #On enlève les taabulations éventuellement présentes dans la ligne.
-    truc = enleve_tabulations(truc)
     #Et on exécute cette ligne via la fonction execute_ligne
     #On stocke dans la variable result, un booléen. True si l'exécution de la ligne n'a pas déclenché d'erreur, False sinon.
     if not mode_si and not f"tmp{numt-1}" in fonctions.keys():
