@@ -1,7 +1,0 @@
-debut
-afficher Salut tout le monde !
-a = 0
-tant_que (#a < 100) {
-afficher A est égal à #a 
-a = (#a + 1)
-}
