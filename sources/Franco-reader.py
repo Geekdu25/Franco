@@ -107,7 +107,7 @@ def execute_ligne(laligne):
                     print(mot+" ", end="")
                   else:
                     if mot[1:len(mot)] in variables:
-                      if type(variables[mot[1:len(mot)]]):
+                      if type(variables[mot[1:len(mot)]]) is int():
                         print(str(round(variables[mot[1:len(mot)]]))+" ", end="")
                       else:
                         print(str(variables[mot[1:len(mot)]])+" ", end="")
