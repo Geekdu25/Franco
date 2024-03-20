@@ -1,0 +1,3 @@
+debut
+nom = entree Entrez votre nom : 
+afficher Vous vous appelez #nom .
