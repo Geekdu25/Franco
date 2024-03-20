@@ -3,17 +3,5 @@ nombre = entree Entrez un nombre :
 double = (#nombre * 2)
 afficher Le double de #nombre est #double .
 }
-
-definir check_age {
-age = entree Entrez votre âge : 
-si (#age < 18) {
-afficher Vous n'êtes pas autorisé à voir ce film interdit aux moins de 18 ans.
-}
-si (#age >= 18) {
-afficher Vous pouvez entrez. Bonne séance !
-}
-}
-
 debut
 afficher_double
-check_age
