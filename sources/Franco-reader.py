@@ -20,6 +20,7 @@ fonctions = {}
 recordVariable = False
 mode_si = False
 
+
 def read_frl(fichier):
   """
   Fonction qui décompose un fichier .frl ligne par ligne
@@ -27,17 +28,19 @@ def read_frl(fichier):
   fichier -> fichier
   return -> bool
   """
+  #On rend certaines variables globales utilisables dans la fonction.
   global ligne, current_variable, variables, commence, checksum, sauvegarde, fonctions, recordVariable, mode_si, current_checksum, numt
+  #On décompose le fichier en plusieurs lignes (qu'on appelle truc).
   for truc in fichier.read().splitlines():
+    #On incrémente le numéro de ligne
     ligne = ligne + 1
-    #On exécute cette ligne via la fonction execute_ligne
+    #Et on exécute cette ligne via la fonction execute_ligne
     #On stocke dans la variable result, un booléen. True si l'exécution de la ligne n'a pas déclenché d'erreur, False sinon.
     if not mode_si and not f"tmp{numt-1}" in fonctions.keys():
       result = execute_ligne(truc)
       #Et si jamais la fonction nous renvoie une erreur, on arrête le programme
       if result==False:
           return False
-    #Sinon, on change la checksum avec les accolades.    
     else:
       if "{" in truc:
         checksum = checksum + 1
@@ -45,10 +48,8 @@ def read_frl(fichier):
         checksum = checksum - 1
       if checksum == current_checksum and mode_si:
         mode_si = False
-      #Ou on exécute une boucle tant que  
       elif checksum == current_checksum and f"tmp{numt-1}" in fonctions.keys():
         fonctions[f"tmp{numt-1}"][2] = ligne
-        #Tant que l'expression est vraie, on analyse tout ça...
         while analyse_expression(fonctions[f"tmp{numt-1}"][0]):
             file = open(filepath, "rt", encoding="UTF-8")
             lignen = fonctions[f"tmp{numt-1}"][1]
@@ -69,17 +70,19 @@ def execute_ligne(laligne):
     laligne -> str
     return -> bool
     """
+    #On rend certaines variables globales utilisables dans la fonction.
     global fichier, ligne, current_variable, variables, commence, checksum, sauvegarde, fonctions, recordVariable, filepath, mode_si, current_checksum, numt
     #On décompose la ligne en mots (qui sont séparés par des espaces).
     test = laligne.split(" ")
     mots = []
+    #Et on stocke tous ces mots dans une variable mots.
     for mot in test:
       if mot != "":
         mots.append(mot)
     #Si l'utilisateur a déjà entré le mot clé debut...
     if len(mots) > 0:
         if commence:
-            #------------------------DEFINIR---------------------------
+            #Si le premier mot de la ligne est definir, on indique à l'utilisateur qu'il ne peut pas définir de fonctions aprés avoir écrit debut.
             if mots[0] == "definir":
                 print(f"Erreur ligne {ligne}")
                 print("Vous ne pouvez pas définir une fonction après l'emploi de debut.")
@@ -89,7 +92,6 @@ def execute_ligne(laligne):
                 checksum = checksum - 1
               else:
                 checksum = 0
-            #------------SI-------------------------------    
             elif mots[0] == "si" and len(mots) > 2:
               if not mots[len(mots)-1] == "{":
                 print(f"Erreur ligne {ligne}")
@@ -101,13 +103,18 @@ def execute_ligne(laligne):
               alors = analyse_expression(expression)
               if not alors:
                 mode_si = True
-            #-----------------------------AFFICHER---------------------------
+            #Sinon, si le mot est afficher, on va afficher la phrase que l'utilisateur souhaite afficher.
             elif mots[0] == "afficher":
+                #Pour chaque mot se trouvant après afficher...
                 for mot in mots[1:len(mots)]:
+                  #On n'a pas affaire à une variable, on va donc afficher le mot plus un espace.
                   if not mot.startswith("#"):
                     print(mot+" ", end="")
+                  #Sinon...
                   else:
+                    #Si le mot se trouve dans le dictionnaire variables...
                     if mot[1:len(mot)] in variables:
+                      #On affiche le contenu de cette variable et un espace.
                       if type(variables[mot[1:len(mot)]]):
                         print(str(round(variables[mot[1:len(mot)]]))+" ", end="")
                       else:
@@ -116,13 +123,17 @@ def execute_ligne(laligne):
                       print(f"Erreur ligne {ligne}")
                       print("La variable n'existe pas.")
                       return False
+                #Et on fait un petit retour à la ligne.
                 print()
-            #-------------------------AFFECTATION DE VARIABLE-------------------
+            #Sinon, s'il y a plus de deux mots et qu'un singne égal se trouve en seconde position...
             elif len(mots) > 2 and mots[1] == "=":
+                #Si le troisième mot est un nombre entier, on enregistre un nombre entier.
                 if mots[2].isdigit() and not "." in mots[2]:
                     variables[mots[0]] = int(mots[2])
+                #Si il a une virgule on l'enregistre comme un flottant.
                 elif mots[2].isdigit() and "." in mots[2]:
                     variables[mots[0]] = float(mots[2])
+                #Si on trouve un #, c'est une variable déjà enregistrée
                 elif mots[2].startswith("#"):
                   try:
                     variables[mots[0]] = variables[mots[2][1:len(mots[2])]]
@@ -130,27 +141,40 @@ def execute_ligne(laligne):
                     print(f"Erreur ligne {ligne}")
                     print(f"La variable {mots[2][1:len(mots[2])]}, n'existe pas.")
                     return False
+                #Si il commence par des guillemets...
+                #On enregistre cette variable comme une string...
                 elif mots[2] == "Vrai" or mots[2] == "Faux":
                   variables[mots[0]] = mots[2]
-                #---------------------------------INPUT----------------------------------------
+                elif mots[2].startswith('"'):
+                    str_vide = ""
+                    for mot in mots[2:len(mots)]:
+                        str_vide = str_vide + mot + " "
+                    variables[mots[0]] = str_vide[1:len(str_vide)-2]
+                #Sinon, si le mot entré en troisième position est le mot entree
                 elif mots[2] == "entree":
+                    #On crée une chaîne vide (à laquelle oon rajoute des mots.) contenant la question
                     str_vide = ""
                     if len(mots) > 3:
                       for mot in mots[3:len(mots)]:
                           str_vide = str_vide + mot + " "
                     result = input(str_vide)
+                    #On convertit le résultat en nombre si c'est un nombre.
                     if result.isdigit():
                         result = float(result)
+                    #Et on enregistre cette valeur dans le dictionnaire.
                     variables[mots[0]] = result
-                #-------------------------EXPRESSION------------------------------  
+                #Sinon, si le mot commence par une parenthèse, on a affaire à une expression.
                 elif mots[2].startswith("("):
+                    #Il faut donc l'analyser.
                     variables[mots[0]] = int(analyse_expression(mots[2:len(mots)]))
+                #Sinon, on retourne une erreur.
                 else:
                     print(f"Erreur ligne {ligne}")
                     print("Erreur lors de l'affectation de la variable.")
                     return False
-            #-------------------------------EXECUTION DE FONCTION-----------------------------
+            #Sinon, si le mot est enregistré comme une fonction...
             elif mots[0] in fonctions:
+                #On analyse chaque ligne du debut de la fonction jusqu'à sa fin.
                 file = open(filepath, "rt", encoding="UTF-8")
                 lignen = fonctions[mots[0]][0]
                 for truc in file.read().splitlines()[fonctions[mots[0]][0]:fonctions[mots[0]][1]]:
@@ -162,12 +186,12 @@ def execute_ligne(laligne):
               fonctions[f"tmp{numt}"] = [mots[1:len(mots)-1], ligne, None]
               numt = numt + 1
               checksum = checksum + 1
-        #Le programme n'a pas encore débuté
+        #Si le programme n'a pas encore commencé.
         else:
-            #-------------------------DEBUT---------------------------------
+            #On commence le programme avec le mot-clé debut
             if mots[0] == "debut":
                 commence = True
-            #---------------------------DEFINITION DE FONCTION----------------------------------
+            #Ou on définit une fonction avec le mot clé definir
             elif mots[0] == "definir":
               if len(mots) == 3 and mots[2]=="{":
                 fonctions[mots[1]] = [ligne, None]
@@ -177,6 +201,7 @@ def execute_ligne(laligne):
                 print(f"Erreur ligne {ligne}")
                 print("Définition de fonction incorrecte")
                 return False
+            #Ici, on termine l'enregistrement d'ne fonction car on a décovert une fin d'accolade
             elif mots[0] == "}":
                 checksum = checksum - 1
                 if checksum == 0 and sauvegarde:
@@ -193,7 +218,7 @@ def analyse_expression(expression):
     global ligne, current_variable, variables, commence, checksum, sauvegarde, fonctions, recordVariable
     test = []
     i = 0
-    #-------------------------DECOMPOSITION DE L'EXPRESSION--------------------------
+    #On traite de manière différente chaque élément de l'expression (un nombre par exemple...)
     for truc in expression:
         if i == 0:
             truc = truc[1:len(truc)]
@@ -211,6 +236,7 @@ def analyse_expression(expression):
         i = i + 1
     partie1 = None
     partie2 = None
+    #Si nous avons un booléen...
     if len(test) == 1:
       if test[0] == "Vrai":
         return True
@@ -219,7 +245,7 @@ def analyse_expression(expression):
       else:
         print(f"Erreur ligne {ligne}")
         print("Booléen non reconnu")
-    #-------------------------------CALCUL-------------------------------
+    #Si nous avons affaire à un calcul simple...on calcule.
     elif len(test) > 2:
       if partie1 == None:
         if test[1] == "+":
@@ -229,12 +255,7 @@ def analyse_expression(expression):
         elif test[1] == "*":
             partie1 =  test[0] * test[2]
         elif test[1] == "/":
-            if test[2] != 0:
-              partie1 =  test[0] / test[2]
-            else:
-                print("Erreur !")
-                print("Il est interdit de diviser par zéro.")
-                partie1 = 0
+            partie1 =  test[0] / test[2]
         elif test[1] == "%":
           partie1 =  test[0] % test[2]
         elif test[1] == "//":
@@ -264,12 +285,7 @@ def analyse_expression(expression):
         elif test[5] == "*":
             partie2 =  test[4] * test[6]
         elif test[5] == "/":
-            if test[6] != 0:
-              partie2 = test[4] / test[6]
-            else:
-                print("Erreur !")
-                print("Il est interdit de diviser par zéro.")
-                partie2 = 0
+            partie2 =  test[4] / test[6]
         elif test[5] == "%":
           partie2 =  test[4] % test[6]
         elif test[5] == "//":
@@ -325,4 +341,4 @@ else:
       print("Le programme s'est terminé sans problème")
   else:
       print("Une erreur nous a forcé à interrompre le programme.")
-input("Appuyez sur Entrée pour continuer...")
+input("Appuyez sur une touche pour continuer...")
