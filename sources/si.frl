@@ -1,0 +1,12 @@
+debut
+age = entree Donnez votre âge : 
+si (#age < 25) {
+afficher Tu es bien jeune !
+}
+si (#age >= 25 et #age < 100) {
+afficher Tu as un bel âge.
+}
+si (#age >= 100) {
+afficher Tu es bien vieux.
+afficher Il n'existe pas d'ordinateurs vieux de #age ans.
+}
