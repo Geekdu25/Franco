@@ -2,5 +2,3 @@ Qu'est-ce que le Franco ?
 Le Franco est un langage de programmation conçu pour être le plus simple possible grâce à sa syntaxe francophone sans guillemets.
 Le Franco a été pensé plus spécialement pour les élèves de spécialités scientifiques (hors nsi), ayant beaucoup de difficultés en programmation.
 Nous espérons que ce nouveau langage leur sera utile et les aidera à progresser.
-Les créateurs du Franco :
-Etienne Pacault et Lenny Couturier
