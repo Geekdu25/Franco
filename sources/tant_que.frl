@@ -1,0 +1,7 @@
+debut
+a = 0
+tant_que (#a < 10) {
+a = (#a + 1)
+afficher #a
+}
+afficher C'est fini, a vaut #a /
