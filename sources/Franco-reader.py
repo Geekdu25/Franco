@@ -36,7 +36,8 @@ def read_frl(fichier):
     #Et on exécute cette ligne via la fonction execute_ligne
     #On stocke dans la variable result, un booléen. True si l'exécution de la ligne n'a pas déclenché d'erreur, False sinon.
     if not mode_si and not f"tmp{numt-1}" in fonctions.keys():
-      result = execute_ligne(truc)
+      if not truc.startswith("//"):
+        result = execute_ligne(truc)
       #Et si jamais la fonction nous renvoie une erreur, on arrête le programme
       if result==False:
           return False
