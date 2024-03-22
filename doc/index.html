@@ -5,27 +5,66 @@
   
 </head>
 <body>
-
+<a name="top"></a>
 <h1>Information d'utilisation du langage de programmation Franco :</h1><br />
-<a href="#var">variables</a><br />
-<a href="#func">fonctions</a><br />
-<a href="#si">instructions conditionnelles</a><br />
-<a href="#oper">operateurs</a><br />
-<a href="#afficher">fonction d'affichage</a><br />
+<a href="#var">Variables</a><br />
+<a href="#func">Fonctions</a><br />
+<a href="#si">Instructions conditionnelles</a><br />
+<a href="#afficher">Fonction d'affichage</a><br />
+<a href="#astuces">Précisions supplémentaires</a><br />
+
 <h1><a name="var">Les variables</a></h1><br />
-<p>Les variables doivent etre initialisées en ecrivant le nom de la variable, puis en ecrivant = suivi de la valeur de la variable.</p>
+<p>Les variables doivent être initialisées en ecrivant le nom de la variable, puis en ecrivant <code>=</code> suivi de la valeur de la variable.</p>
 <p>Exemple : <code>var = 6</code></p>
 <p>Ici, on initialise la variable var en lui affectant la valeur 6.</p>
-<p>Sachant que les chaines de caractères ne sont pas délimitées par des guillemets, les variables sont précédés d'un # lorsque l'on aura besoin de la variable, excepté lors de son affectation. exemple :</p>
-<p><code>afficher le contenu de la variabe est #var</code>: ici, la console affichera <code>"le contenu de la variable est 6"</code> (parceque l'on a affecté précédemment à la variable var la valeur 6).</p>
+<p>Sachant que les chaines de caractères ne sont pas délimitées par des guillemets, les variables sont précédés d'un <code>#</code> lorsque l'on aura besoin de la variable, excepté lors de son affectation. Exemple :</p>
+<p><code>afficher le contenu de la variabe est #var</code>: ici, la console affichera <code>le contenu de la variable est 6</code> (parce que l'on a affecté précédemment à la variable var la valeur 6).</p>
+<p>Il est possible d'utiliser une fonctionnalité dans laquelle l'utilisateur du programme rentre lui même une valeur sans avoir à modifier lui même le programme. Il suffit d'écrire le nom de la variable suivi d'un signe <code>=</code> puis du mot-clé <code>entree</code> suivi de la question qu'on souhaite poser à l'utilisateur. Exemple :</p>
+<p><code>var = entree Quelle valeur voulez-vous affecter à la variable var ?</code></p>
+
+
 <h1><a name="func">Les fonctions</a></h1><br />
-<p>Pour définir une fonction, utilisez le mot-clé definir suivit du nom de la fonction puis d'une accolade avant d'avoir écrit le mot clé debut. exemple :</p>
+<p>Pour définir une fonction, utilisez le mot-clé definir suivit du nom de la fonction puis d'une accolade avant d'avoir écrit le mot-clé debut. Exemple :</p>
 <p><code>definir bonjour {<br />
-a = 2
-b = #a + 3
+a = 2<br />
+b = #a + 3<br />
 }
 </code></p>
 <h1><a name="si">Les instructions conditionnelles</a></h1><br />
-<h1><a name="oper">Les opérateurs</a></h1><br />
+<p>Le mot-clé <code>si</code> exprime une condition. En fonction de la valeur booléenne de l'expression. Exemple :<br /><br />
+<code>
+si (#var = 1) {<br />
+afficher bonjour !<br />
+}<br />
+si (#var = 0) {<br />
+afficher bonsoir !<br />
+}
+</code></p><br />
+<p>L'exemple ci-dessus nous indique que si la variable <code>var</code> contient la valeur 1, le programme affiche <code>bonjour !</code> en console. Si la variable contient la valeur 1, le programme affiche <code>bonsoir !</code>. Si la variable contient une autre valeur, le programme n'affiche rien du tout.</p>
+<br />
+<p>Pour créer une boucle tant que, utilisez le mot-clé <code>tant_que</code>. Exemple :</p><br />
+<code>
+var = 0<br />
+tant_que (#var < 10) {<br />
+afficher La variable var vaut #var .<br />
+var = (#var + 1)<br />
+}<br />
+afficher C'est fini ! La variable var vaut #var .<br />
+</code>
+<a name="afficher"><h1>Fonction d'affichage</h1></a>
+<p>Le mot-clé <code>afficher</code> permet d'afficher en console un texte écrit après ce mot-clé. Comme vu précédemment, si on veut afficher une variable, il suffit de nommer cette variable après avoir placé un signe <code>#</code>. Exemple :</p>
+<p>
+<code>
+    a = 40  <br />
+    afficher bonjour ! Quel âge avez-vous ? <br />
+    afficher J'ai #a ans.</code>
+</p>
+<h1><a name="astuces">Précisions supplémentaires</a></h1>
+<p>Voici une liste de précisions supplémentaires sur le Franco.<br />
+- Le langage ne supporte pas les nombres à virgule flottante, n'affectez pas de valeurs décimales à une variable.<br />
+- Pour commentez votre programme, mettez en début de lignes deux barres obliques <code>//</code>, pour indiquer à l'interpréteur qu'il ne doit pas exécuter cette ligne.<br />
+- Pour vérifier une égalité ou une différence entre deux conditions, utilisez le signe = ou !. De même, pour vérifier que deux conditions sont vraies en même temps utilisez le mot-clé <code>et</code> ou <code>ou</code> pour vérifier si l'une d'elles au moins est vraie.<br />
+- Vous pouvez clarifier votre code en mettant des espaces ou vous voulez. Cependant, n'utilisez pas dans vos programmes d'indentations standard <code>\t</code>.</p>
+<a href="#top">Retour au début de la page.</a>
 </body>
 </html>
