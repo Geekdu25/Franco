@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Crée par Etienne Pacault et Lenny Couturier le 26 janvier 2024.
+Crée par Geekdu25 et Vanadium16 le 26 janvier 2024.
 Ce programme python permet de lire les fichiers franco au format .frl
 """
 
