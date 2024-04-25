@@ -24,6 +24,6 @@ Il a été conçu pour les personnes souhaitant se lancer dans la programmation 
 3. Rendez le Lecteur Franco exécutable
 <code>sudo chmod +x Franco-reader.py</code>
 4. Copiez le script dans le dossier /usr/local/bin
-<code>sudo cp Franco-reader.py /usr/local/lib/franco-reader</code>
+<code>sudo cp Franco-reader.py /usr/local/bin/franco-reader</code>
 5. Testez le lecteur en ligne de commande.
 <code>franco-reader <NOM_DE_VOTRE_FICHIER>.frl</code>
