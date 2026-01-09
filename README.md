@@ -1,6 +1,8 @@
 # Franco
+<img src="doc/logo.png" alt="Logo du langage de programmation Franco" title="Logo du langage de programmation Franco"/>
+<hr />
 Logiciel de lecture des fichiers .frl
-Vidéo de présentation <a href="https://tube-sciences-technologies.apps.education.fr/w/t8MGRcpzpiTB4gp9WhE5u7" alt="Lien vers la vidéo de présentation">ici</a>.
+Vidéo de présentation <a href="https://tube-sciences-technologies.apps.education.fr/w/t8MGRcpzpiTB4gp9WhE5u7">ici</a>.
 # Qu'est-ce que le Franco ?
 Le Franco est un langage de programmation révolutionnaire entièrement francophone.
 Il a été conçu pour les personnes souhaitant se lancer dans la programmation informatique, mais qui ont peur d'un langage anglophone traditionnel.
